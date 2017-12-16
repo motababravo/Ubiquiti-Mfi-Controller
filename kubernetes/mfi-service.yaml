@@ -1,0 +1,38 @@
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    k8s-app: mfi-rs
+  name: mfi-rs
+  namespace: home
+spec:
+  type: NodePort
+  externalIPs:
+    - 10.20.0.11
+  ports:
+  - port: 6443
+    name: mfi-6443
+    targetPort: 6443
+  - port: 6080
+    name: mfi-6080
+    targetPort: 6080
+  - port: 6081
+    name: mfi-6081
+    targetPort: 6081
+  - port: 6843
+    name: mfi-6843
+    targetPort: 6843
+  - port: 6880
+    name: mfi-6880
+    targetPort: 6880
+  - port: 2323
+    name: mfi-2323
+    targetPort: 2323
+    protocol: TCP
+  - port: 3478
+    name: mfi-3478
+    targetPort: 3478
+    protocol: UDP
+  selector:
+    k8s-app: mfi-rs
+

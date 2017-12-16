@@ -1,0 +1,63 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mfi-rs
+  namespace: home
+  labels:
+    k8s-app: mfi-rs
+    version: v0
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: mfi-rs
+      labels:
+        k8s-app: mfi-rs
+        version: v0
+    spec:
+      containers:
+      - name: mfi-rs
+        image: centos-minion-3.chaotic-monkey.com:5000/mfi01
+        env:
+        - name: BASEDIR
+          value: /usr/lib/mfi
+        - name: DATADIR
+          value: /var/lib/mfi
+        - name: RUNDIR
+          value: /var/run/mfi
+        - name: LOGDIR
+          value: /var/log/mfi
+        - name: JVM_MAX_HEAP_SIZE
+          value: 1024M
+        - name: JVM_INIT_HEAP_SIZE
+          value: 1024M
+        volumeMounts:
+        - name: mfi-disk-pv
+          mountPath: /mFi/data
+          subPath: "ubnt/ubnt-mfi"
+        ports:
+        - containerPort: 6443
+          name: mfi-6443
+          protocol: TCP
+        - containerPort: 6080
+          name: mfi-6090
+          protocol: TCP
+        - containerPort: 6081 
+          name: mfi-6081
+          protocol: TCP
+        - containerPort: 6843
+          name: mfi-6843
+          protocol: TCP
+        - containerPort: 6880
+          name: mfi-6880
+          protocol: TCP
+        - containerPort: 2323
+          name: mfi-2323
+          protocol: TCP
+        - containerPort: 3478
+          name: mfi-3478
+          protocol: UDP
+      volumes:
+      - name: mfi-disk-pv
+        persistentVolumeClaim:
+          claimName: mfi-disk-pvc
