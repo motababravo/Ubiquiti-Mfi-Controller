@@ -1,4 +1,4 @@
-FROM java:7-jre
+FROM java:6-jre
 
 ENV MFI_VERSION=2.1.11
 
